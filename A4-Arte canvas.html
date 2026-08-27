@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>A4 - Arte en CANVAS</title>
+   
+  <style>
+    body {
+      background-color: white;
+      text-align: center;
+    }
+    canvas {
+      border: 1px solid #19c050;
+      background-color: white;
+    }
+  </style>
+
+  <script>
+    var x = 0;   
+    var dx = 4;  
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      var canvas = document.getElementById("micanvas");
+      var context = canvas.getContext("2d");
+
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+     
+      context.fillStyle = "black";
+      context.fillRect(10 + x, 10, 100, 100);
+      context.fillRect(10 + x, 110, 100, 100);
+      context.fillRect(110 + x, 110, 100, 100);
+      context.fillRect(330 + x, 10, 100, 100);
+      context.fillRect(430 + x, 110, 100, 100);
+      context.fillRect(330 + x, 110, 100, 100);
+      context.fillRect(430 + x, 310, 100, 100);
+      context.fillRect(10 + x, 310, 100, 100);
+      context.fillRect(110 + x, 410, 100, 100);
+      context.fillRect(210 + x, 410, 100, 100);
+      context.fillRect(310 + x, 410, 120, 100);
+      if (x > 270 || x < 0) {
+        dx = -dx;
+      }
+
+      // 4. Update the horizontal position
+      x += dx;
+    }
+
+    // Start the animation once the page finishes loading
+    window.onload = function() {
+      animate();
+    };
+  </script> 
+</head>
+
+<body>
+  <canvas id="micanvas" width="800" height="600"></canvas>
+</body>
+</html>
