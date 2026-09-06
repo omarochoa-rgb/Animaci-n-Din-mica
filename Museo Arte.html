@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Museo de Arte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: bisque;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Amarante', serif;
+            font-size: 70px;
+            font-style: normal;
+            color: rgb(43, 133, 13);
+            text-align: center;
+        }
+
+      
+        .galeria-contenedor {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+
+        .pintura-marco {
+            width: 350px;
+            height: 450px;
+            object-fit: cover;
+            border: 6px solid #3d2314;
+            border-radius: 4px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        aside {
+            width: 300px;
+            overflow-wrap: break-word;
+            font-family: sans-serif;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bienvenido al Museo</h1>
+
+    <div class="galeria-contenedor">
+        
+        <img id="imagen" class="pintura-marco" src="MonaLisa.jpg" alt="Pintura del museo">
+
+        
+        <aside id="descripcion">Presiona las teclas 1 al 5 para aprender sobre pinturas históricas!</aside>
+    </div>
+
+    <script>
+
+        const Imagen = document.getElementById('imagen');
+        const descripcion = document.getElementById('descripcion');
+
+        document.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case '1':
+                    Imagen.src = "MonaLisa.jpg";
+                    descripcion.textContent = "Mona Lisa (Leonardo da Vinci, 1503). Muestra del Renacimiento y la técnica del sfumato.";
+                    break;
+
+                case '2':
+                    Imagen.src = "NocheEstrellada.jpg";
+                    descripcion.textContent = "La Noche Estrellada (Vincent van Gogh, 1889). Obra cumbre del Postimpresionismo.";
+                    break;
+
+                case '3':
+                    Imagen.src = "PermanenciadelaMemoria.jpg";
+                    descripcion.textContent = "La Persistencia de la Memoria (Salvador Dalí, 1931). Ícono del Surrealismo.";
+                    break;
+
+                case '4':
+                    Imagen.src = "The_Scream.jpg";
+                    descripcion.textContent = "El Grito (Edvard Munch, 1893). Referencia fundamental del Expresionismo.";
+                    break;
+
+            }
+        });
+    </script>
+</body>
+</html>
