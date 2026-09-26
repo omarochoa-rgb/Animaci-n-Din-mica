@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A4 - Reto onda sinoidal</title>
+    <style>
+      body {
+        background-image: url(https://i.natgeofe.com/n/bfec083e-ac57-4c17-8af1-3e8b322df8e0/NGM%20Ballesta%20Underwater-1.jpg);
+        background-position: center;
+        background-size: cover;
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="1500" height="700"></canvas>
+    
+    <script>
+window.onload = function () {
+  var canvas = document.getElementById('canvas'),
+      context = canvas.getContext('2d'),
+      fishImage = new Image(),
+    
+      fishWidth = 200,
+      fishHeight = 200,
+      
+      posicionX = 100,
+      speedX = 5,
+      centerY = canvas.height / 2,
+      
+      angle = 0,
+      speedAngle = 0.04,
+      rangeY = 120,
+ 
+      centerScale = 1.0,
+      rangeScale = 0.25,
+      escalaX = 1,
+      escalaY = 1;
+
+  fishImage.src = "Fishy.png";
+
+  (function drawFrame() {
+    window.requestAnimationFrame(drawFrame, canvas);
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    posicionX += speedX;
+
+    angle += speedAngle;
+    var posicionY = centerY + Math.sin(angle) * rangeY;
+    escalaX = escalaY = centerScale + Math.sin(angle) * rangeScale;
+
+    var currentWidth = fishWidth * escalaX;
+    var currentHeight = fishHeight * escalaY;
+
+
+    if (posicionX + currentWidth > canvas.width) {
+      posicionX = canvas.width - currentWidth;
+      speedX = -speedX;
+    } else if (posicionX < 0) {
+      posicionX = 0;
+      speedX = -speedX;
+    }
+
+    context.strokeRect(0, 0, canvas.width, canvas.height);
+
+    context.save();
+    context.translate(posicionX, posicionY);
+
+  
+    if (speedX < 0) {
+      context.scale(-1, 1);
+      context.drawImage(fishImage, -currentWidth, 0, currentWidth, currentHeight);
+    } else {
+      context.drawImage(fishImage, 0, 0, currentWidth, currentHeight);
+    }
+
+    context.restore();
+  }());
+};
+    </script>
+  </body>
+</html>
