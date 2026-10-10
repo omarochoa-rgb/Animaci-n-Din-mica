@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Reloj Vectorial con Velocidades Proporcionales</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas { 
+            background-color: #ffffff;
+            border-radius: 50%;
+        }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+
+    <script src="utils.js"></script>
+    <script src="./classes/arrow.js"></script>
+    <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas'),
+          context = canvas.getContext('2d');
+
+      
+      var vr = 0.0005;   
+      var vr2 = vr * 12;  
+      var vr3 = vr2 * 5;  
+
+      var radianesHora = 0;
+      var radianesMinuto = 0;
+      var radianesSegundo = 0;
+
+      (function drawFrame () {
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+     
+        radianesHora += vr;
+        radianesMinuto += vr2;
+        radianesSegundo += vr3;
+
+       
+        
+        context.save();
+        context.translate(300, 300);
+        context.rotate(radianesHora);
+        context.beginPath();
+        context.moveTo(0, 0);
+        context.lineTo(0, -120);
+        context.strokeStyle = "#000000";
+        context.lineWidth = 6;
+        context.lineCap = "round";
+        context.stroke();
+        context.restore();
+
+       
+        context.save();
+        context.translate(300, 300);
+        context.rotate(radianesMinuto);
+        context.beginPath();
+        context.moveTo(0, 0);
+        context.lineTo(0, -170);
+        context.strokeStyle = "#333333";
+        context.lineWidth = 4;
+        context.lineCap = "round";
+        context.stroke();
+        context.restore();
+
+       
+        context.save();
+        context.translate(300, 300);
+        context.rotate(radianesSegundo);
+        context.beginPath();
+        context.moveTo(0, 20); 
+        context.lineTo(0, -200);
+        context.strokeStyle = "#ff0000";
+        context.lineWidth = 2;
+        context.lineCap = "round";
+        context.stroke();
+        context.restore();
+
+        
+        context.beginPath();
+        context.arc(300, 300, 6, 0, Math.PI * 2);
+        context.fillStyle = "#ff0000";
+        context.fill();
+
+      }());
+    };
+    </script>
+  </body>
+</html>
