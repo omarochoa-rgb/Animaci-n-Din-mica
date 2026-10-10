@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A6 - Paint App personalizado (2-oct)</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image: url('https://assets.st-note.com/img/1790412559-L3a6TYe05OCglZF1MziKJbpU.jpg?width=2000&height=2000&fit=bounds&quality=85');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-family: sans-serif;
+      }
+      /* Container to hold the canvas and the controls side-by-side */
+      .app-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      canvas {
+        background-color: white; 
+        cursor: crosshair;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+      /* Sidebar for the buttons and slider on the right */
+      .button-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      /* Plain rectangular buttons with no effects */
+      .color-btn {
+        width: 40px;
+        height: 30px;
+        border: 1px solid #000;
+        cursor: pointer;
+        padding: 0;
+      }
+      /* Borrar text button styled plainly */
+      .clear-btn {
+        width: 60px;
+        height: 30px;
+        border: 1px solid #000;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: bold;
+      }
+      /* Simple slider with no effects */
+      .width-slider {
+        width: 60px;
+        margin-top: 5px;
+      }
+      aside {
+        margin-top: 15px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <canvas id="canvas" width="900" height="500"></canvas>
+      
+      <!-- Panel on the right containing buttons and the slider -->
+      <div class="button-panel">
+        <button class="color-btn" style="background-color: white;" data-color="white"></button>
+        <button class="color-btn" style="background-color: #808080;" data-color="grey"></button>
+        <button class="color-btn" style="background-color: #d3d3d3;" data-color="lightgrey"></button>
+        <button class="color-btn" style="background-color: black;" data-color="black"></button>
+        <button id="clearBtn" class="clear-btn">borrar</button>
+        
+        <!-- Slider from 0 to 1 with step 0.05 for smooth control -->
+        <input type="range" id="widthSlider" class="width-slider" min="0" max="1" step="0.05" value="0.2">
+      </div>
+    </div>
+  
+    
+    <script src="utils.js"></script>
+    <script>
+    window.onload = function () {
+      var canvas = document.getElementById('canvas'),
+          context = canvas.getContext('2d'),
+          mouse = utils.captureMouse(canvas);
+
+      // Default brush settings
+      context.strokeStyle = 'black';
+      context.lineWidth = document.getElementById('widthSlider').value * 25; // initial thickness based on slider
+      context.lineCap = 'round';
+
+      // Add click events to change the stroke color
+      var buttons = document.querySelectorAll('.color-btn');
+      buttons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          context.strokeStyle = this.style.backgroundColor;
+        });
+      });
+
+      // Clear canvas function
+      var clearBtn = document.getElementById('clearBtn');
+      clearBtn.addEventListener('click', function() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      });
+
+      // Update stroke width dynamically from slider (0 to 1)
+      var widthSlider = document.getElementById('widthSlider');
+      widthSlider.addEventListener('input', function() {
+        // Multiplied by 25 so 1 on the slider gives a visible 25px width stroke
+        context.lineWidth = this.value * 25;
+      });
+
+      canvas.addEventListener('mousedown', function () {
+        context.beginPath();
+        context.moveTo(mouse.x, mouse.y);
+        canvas.addEventListener('mousemove', onMouseMove, false);
+      }, false);
+
+      canvas.addEventListener('mouseup', function () {
+        canvas.removeEventListener('mousemove', onMouseMove, false);
+      }, false);
+
+      function onMouseMove () {
+        context.lineTo(mouse.x, mouse.y);
+        context.stroke();
+      }
+    };
+    </script>
+  </body>
+</html>
